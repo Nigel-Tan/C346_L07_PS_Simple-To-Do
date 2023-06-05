@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="0.1"
+        android:layout_weight="0.05"
         android:fontFamily="@font/neodex"
         android:gravity="center"
         android:text="@string/title"
@@ -26,6 +26,17 @@
         android:layout_height="0dp"
         android:layout_weight="0.05" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:gravity="center"
+        android:text="Press and hold to manage task"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/black"
+        android:textSize="34sp" />
+
     <Spinner
         android:id="@+id/spinnerActivity"
         android:layout_width="match_parent"
@@ -33,7 +44,8 @@
         android:layout_weight="0.1"
         android:background="#80FFC0CB"
         android:entries="@array/spinnerItems"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:visibility="gone" />
 
     <Space
         android:id="@+id/taskSpace"
@@ -76,6 +88,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.05"
         android:orientation="horizontal">
 
         <Button
@@ -83,6 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
             android:text="@string/btnAdd" />
 
         <Button
@@ -90,7 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnDelete" />
+            android:text="@string/btnDelete"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonClear"

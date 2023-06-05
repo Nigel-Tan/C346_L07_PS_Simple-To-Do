@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,22 @@ public class MainActivity extends AppCompatActivity {
     Space taskSpace;
     Space etSpace;
     String selectMsg = "Choose a task to delete";
+    int taskid;
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_main, menu); //inflate method creates the menu.
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        taskDataSource.remove(taskid);
+        displayDataSource.remove(taskid+1);
+        manageAdapter();
+        return super.onContextItemSelected(item); //pass menu item to the superclass implementation
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +76,16 @@ public class MainActivity extends AppCompatActivity {
         lvTask.setAdapter(adapter);
         addActivityState();
 
+        registerForContextMenu(lvTask);
+
         //create listener
+        lvTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                taskid = position;
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,16 +98,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (deleteValidate()){
-                    taskDataSource.remove(spinnerTask.getSelectedItem().toString());
-                    displayDataSource.remove(spinnerTask.getSelectedItem().toString());
-                    manageAdapter();
-                }
-            }
-        });
+//        btnDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (deleteValidate()){
+//                    taskDataSource.remove(spinnerTask.getSelectedItem().toString());
+//                    displayDataSource.remove(spinnerTask.getSelectedItem().toString());
+//                    manageAdapter();
+//                }
+//            }
+//        });
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     case 0: //add task
                         addActivityState();
                         break;
-                    case 1: //delete task
-                        deleteActivityState();
-                        break;
+//                    case 1: //delete task
+//                        deleteActivityState();
+//                        break;
                 }
             }
 
@@ -122,15 +149,17 @@ public class MainActivity extends AppCompatActivity {
         etInput.setText("");
     }
 
-    private void deleteActivityState(){
-        btnAdd.setEnabled(false);
-        btnDelete.setEnabled(true);
-        spinnerTask.setVisibility(View.VISIBLE);
-        etInput.setVisibility(View.GONE);
-        etSpace.setVisibility(View.GONE);
-        taskSpace.setVisibility(View.VISIBLE);
-        spinnerTask.setSelection(0);
-    }
+//    private void deleteActivityState(){
+//        btnAdd.setEnabled(false);
+//        btnDelete.setEnabled(true);
+//        spinnerTask.setVisibility(View.VISIBLE);
+//        etInput.setVisibility(View.GONE);
+//        etSpace.setVisibility(View.GONE);
+//        taskSpace.setVisibility(View.VISIBLE);
+//        spinnerTask.setSelection(0);
+//        Toast.makeText(MainActivity.this,"Hint: you can press and hold to manage task.",
+//                Toast.LENGTH_LONG).show();
+//    }
 
     private void manageAdapter(){
         adapter.notifyDataSetChanged();
@@ -150,15 +179,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean deleteValidate(){
-        String select = spinnerTask.getSelectedItem().toString();
-        if (select.equals(selectMsg)){
-            Toast.makeText(MainActivity.this,"Choose a task to delete",
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
+//    private boolean deleteValidate(){
+//        String select = spinnerTask.getSelectedItem().toString();
+//        if (select.equals(selectMsg)){
+//            Toast.makeText(MainActivity.this,"Choose a task to delete",
+//                    Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        else{
+//            return true;
+//        }
+//    }
 }
